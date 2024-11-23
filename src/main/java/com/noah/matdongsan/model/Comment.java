@@ -8,8 +8,13 @@ import java.util.Date;
 public class Comment {
     @Id
     private Long id;
+
     @Lob
     private String comment;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date created_at;
+
+    @Column(name="property_id")
+    private Long propertyId;
 }
