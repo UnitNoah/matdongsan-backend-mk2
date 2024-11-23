@@ -9,24 +9,24 @@ import java.util.Date;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
-    String email;
+    private String email;
 
     @Column(nullable = false)
-    String role;
+    private String role;
 
     @Column(name = "is_removed")
-    boolean isRemoved;
+    private boolean isRemoved;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date", updatable = false)
     private Date createdDate;
 
-    String name;
+    private String name;
 
-    String profileURL;
+    private String profileURL;
 
-    String phone;
+    private String phone;
 }
