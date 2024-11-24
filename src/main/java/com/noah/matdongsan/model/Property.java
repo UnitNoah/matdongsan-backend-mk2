@@ -11,7 +11,7 @@ public class Property {
     @Column(name = "property_id")
     private Long id;
 
-    private int deposite;
+    private int deposit;
 
     private int monthlyFee;
 
