@@ -40,7 +40,7 @@ public class Property {
     private int hitCount = 0;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private final LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -60,16 +60,22 @@ public class Property {
     private Member member;
 
     @Builder
-    public Property(long deposit, long monthlyfee, long maintenance, String floorType, String roomSize, String title, String category) {
+    public Property(long deposit, long monthlyFee, long maintenance, String floorType, String roomSize, String title, String category, Address address) {
         this.deposit = deposit;
-        this.monthlyFee = monthlyfee;
+        this.monthlyFee = monthlyFee;
         this.maintenance = maintenance;
         this.floorType = floorType;
         this.roomSize = roomSize;
         this.title = title;
         this.category = category;
+        this.address = address;
     }
 
+    @PrePersist
+    public void initializeCreatedAt() {
+        this.createdAt = LocalDateTime.now();
+    }
+    
     public void incrementHitCount() {
         this.hitCount++;
     }
