@@ -29,4 +29,8 @@ public class Member {
     private String profileURL;
 
     private String phone;
+
+    @OneToOne
+    @JoinColumn(name="common_user_id")
+    private CommonUser commonUser;
 }
