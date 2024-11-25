@@ -27,9 +27,9 @@ public class Agent {
     @Embedded
     private Address address;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @OneToOne
+    @JoinColumn(name = "common_user_id", nullable = false)
+    private CommonUser commonUser;
 
     @Column(name = "agent_photo_url", nullable = false)
     private String agentPhotoUrl;
