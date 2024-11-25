@@ -2,6 +2,7 @@ package com.noah.matdongsan.model;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -33,4 +34,14 @@ public class Agent {
 
     @Column(name = "agent_photo_url", nullable = false)
     private String agentPhotoUrl;
+
+    @Builder
+    public Agent(String ownerName, String agentName, String phone, String agentPhotoUrl, Address address, CommonUser commonUser) {
+        this.ownerName = ownerName;
+        this.agentName = agentName;
+        this.phone = phone;
+        this.agentPhotoUrl = agentPhotoUrl;
+        this.address = address;
+        this.commonUser = commonUser;
+    }
 }
