@@ -21,7 +21,11 @@ public class Question {
     @Enumerated(EnumType.STRING) // Enum을 문자열로 저장
     @Column(nullable = false)
     private QuestionCategory category;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String content;
 
     @OneToOne
@@ -30,9 +34,9 @@ public class Question {
 
     @OneToOne
     @JoinColumn(name = "answer_id", nullable = false)
-    private Answer answer;
+    private QuestionAnswer questionAnswer;
 
-    @Column(name = "question_photo_url", nullable = false)
+    @Column(name = "question_photo_url", nullable = true)
     private String questionPhotoUrl;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -44,12 +48,12 @@ public class Question {
     }
 
     @Builder
-    public Question(QuestionCategory category, String title, String content, CommonUser commonUser, Answer answer, String questionPhotoUrl) {
+    public Question(QuestionCategory category, String title, String content, CommonUser commonUser, QuestionAnswer questionAnswer, String questionPhotoUrl) {
         this.category = category;
         this.title = title;
         this.content = content;
         this.commonUser = commonUser;
-        this.answer = answer;
+        this.questionAnswer = questionAnswer;
         this.questionPhotoUrl = questionPhotoUrl;
     }
 }
