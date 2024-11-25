@@ -32,8 +32,7 @@ public class Notice {
     }
 
     @Builder
-    public Notice(Long id, String title, String content) {
-        this.id = id;
+    public Notice(String title, String content) {
         this.title = title;
         this.content = content;
     }
