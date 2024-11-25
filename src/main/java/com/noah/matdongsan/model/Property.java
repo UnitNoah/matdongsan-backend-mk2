@@ -1,19 +1,13 @@
 package com.noah.matdongsan.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "properties")
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Property {
     @Id
@@ -48,8 +42,8 @@ public class Property {
     @Column(name = "created_at", nullable = false, updatable = false)
     private final LocalDateTime createdAt = LocalDateTime.now();
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PropertyStatus status;
 
     @Column(nullable = false, length = 100)
@@ -64,6 +58,17 @@ public class Property {
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    @Builder
+    public Property(long deposit, long monthlyfee, long maintenance, String floorType, String roomSize, String title, String category) {
+        this.deposit = deposit;
+        this.monthlyFee = monthlyfee;
+        this.maintenance = maintenance;
+        this.floorType = floorType;
+        this.roomSize = roomSize;
+        this.title = title;
+        this.category = category;
+    }
 
     public void incrementHitCount() {
         this.hitCount++;
