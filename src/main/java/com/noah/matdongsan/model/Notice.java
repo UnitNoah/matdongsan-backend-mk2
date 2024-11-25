@@ -23,14 +23,18 @@ public class Notice {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private LocalDateTime date;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     @Builder
-    public Notice(Long id, String title, String content, LocalDateTime date) {
+    public Notice(Long id, String title, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.date = date;
     }
 }
