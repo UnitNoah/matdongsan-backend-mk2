@@ -1,5 +1,6 @@
 package com.noah.matdongsan.entity.property;
 
+import com.noah.matdongsan.entity.BaseTimeEntity;
 import com.noah.matdongsan.entity.user.Address;
 import com.noah.matdongsan.entity.user.Member;
 import jakarta.persistence.*;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "properties")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Property {
+public class Property extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "property_id")
@@ -41,8 +42,6 @@ public class Property {
     @Column(name = "hit_count", nullable = false)
     private int hitCount = 0;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -71,11 +70,6 @@ public class Property {
         this.title = title;
         this.category = category;
         this.address = address;
-    }
-
-    @PrePersist
-    public void initializeCreatedAt() {
-        this.createdAt = LocalDateTime.now();
     }
     
     public void incrementHitCount() {

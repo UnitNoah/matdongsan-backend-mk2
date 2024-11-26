@@ -1,5 +1,6 @@
 package com.noah.matdongsan.entity.notice;
 
+import com.noah.matdongsan.entity.BaseTimeEntity;
 import com.noah.matdongsan.entity.user.CommonUser;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "question")
-public class Question {
+public class Question extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
@@ -39,14 +40,6 @@ public class Question {
 
     @Column(name = "question_photo_url", nullable = true)
     private String questionPhotoUrl;
-
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-    }
 
     @Builder
     public Question(QuestionCategory category, String title, String content, CommonUser commonUser, QuestionAnswer questionAnswer, String questionPhotoUrl) {

@@ -20,10 +20,6 @@ public class Member {
     @Column(name = "is_removed")
     private boolean isRemoved;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_date", updatable = false)
-    private Date createdDate;
-
     private String name;
 
     private String profileURL;

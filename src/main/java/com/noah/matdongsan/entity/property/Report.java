@@ -1,5 +1,6 @@
 package com.noah.matdongsan.entity.property;
 
+import com.noah.matdongsan.entity.BaseTimeEntity;
 import com.noah.matdongsan.entity.user.CommonUser;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Report {
+public class Report extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
