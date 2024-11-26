@@ -1,4 +1,4 @@
-package com.noah.matdongsan.model;
+package com.noah.matdongsan.entity.notice;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,19 +11,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(name = "question_answer")
-public class QuestionAnswer {
+@Table(name = "notice")
+public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "answer_id")
     private Long id;
 
     @Column(nullable = false)
-    private String content;
+    private String title;
 
-    @OneToOne
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    @Column(nullable = false)
+    private String content;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -34,8 +32,8 @@ public class QuestionAnswer {
     }
 
     @Builder
-    public QuestionAnswer(String content, Question question) {
+    public Notice(String title, String content) {
+        this.title = title;
         this.content = content;
-        this.question = question;
     }
 }

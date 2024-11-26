@@ -1,4 +1,4 @@
-package com.noah.matdongsan.model;
+package com.noah.matdongsan.entity.property;
 
 public enum PropertyStatus {
     AVAILABLE,

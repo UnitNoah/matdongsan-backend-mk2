@@ -1,5 +1,7 @@
-package com.noah.matdongsan.model;
+package com.noah.matdongsan.entity.property;
 
+import com.noah.matdongsan.entity.user.Address;
+import com.noah.matdongsan.entity.user.Member;
 import jakarta.persistence.*;
 import lombok.*;
 

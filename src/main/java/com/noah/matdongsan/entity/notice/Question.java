@@ -1,5 +1,6 @@
-package com.noah.matdongsan.model;
+package com.noah.matdongsan.entity.notice;
 
+import com.noah.matdongsan.entity.user.CommonUser;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

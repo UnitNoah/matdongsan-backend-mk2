@@ -1,4 +1,4 @@
-package com.noah.matdongsan.model;
+package com.noah.matdongsan.entity.user;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

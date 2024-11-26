@@ -1,5 +1,6 @@
-package com.noah.matdongsan.model;
+package com.noah.matdongsan.entity.property;
 
+import com.noah.matdongsan.entity.user.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

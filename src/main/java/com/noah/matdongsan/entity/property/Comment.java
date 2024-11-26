@@ -1,43 +1,42 @@
-package com.noah.matdongsan.model;
+package com.noah.matdongsan.entity.property;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.LocalDateTime;
 
-@Entity
 @Getter
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CommonUser {
+public class Comment {
     @Id
-    @Column(name="common_user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String email;
-
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
-
-    @Column(name="is_removed")
-    private boolean isRemoved;
+    @Lob
+    @Column(nullable = false)
+    private String comment;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public CommonUser(String email, UserRole role) {
-        this.email = email;
-        this.role = role;
+    @ManyToOne
+    @JoinColumn(name = "property_id")
+    private Property property;
+
+    @Builder
+    public Comment(String comment, Property property) {
+        this.comment = comment;
+        this.property = property;
     }
 
     @PrePersist
     public void initializeCreatedAt() {
         this.createdAt = LocalDateTime.now();
     }
+
 
 }
