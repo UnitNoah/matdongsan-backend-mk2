@@ -22,6 +22,9 @@ public class Agent {
     @Column(name = "agent_name", nullable = false)
     private String agentName;
 
+    @Column(name = "agent_license_number", nullable = false)
+    private Long agentLicenseNumber;
+
     @Column(nullable = false)
     private String phone;
 
@@ -35,12 +38,17 @@ public class Agent {
     @Column(name = "agent_photo_url", nullable = false)
     private String agentPhotoUrl;
 
+    @Column(name = "agent_license_photo_url", nullable = false)
+    private String agentLicensePhotoUrl;
+
     @Builder
-    public Agent(String ownerName, String agentName, String phone, String agentPhotoUrl, Address address, CommonUser commonUser) {
+    public Agent(String ownerName, String agentName, Long agentLicenseNumber, String phone, String agentPhotoUrl, String agentLicensePhotoUrl, Address address, CommonUser commonUser) {
         this.ownerName = ownerName;
         this.agentName = agentName;
+        this.agentLicenseNumber = agentLicenseNumber;
         this.phone = phone;
         this.agentPhotoUrl = agentPhotoUrl;
+        this.agentLicensePhotoUrl = agentLicensePhotoUrl;
         this.address = address;
         this.commonUser = commonUser;
     }
