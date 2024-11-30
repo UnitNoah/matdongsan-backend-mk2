@@ -20,9 +20,6 @@ public class Comment {
     @Column(nullable = false)
     private String comment;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
     @ManyToOne
     @JoinColumn(name = "property_id")
     private Property property;
@@ -32,11 +29,5 @@ public class Comment {
         this.comment = comment;
         this.property = property;
     }
-
-    @PrePersist
-    public void initializeCreatedAt() {
-        this.createdAt = LocalDateTime.now();
-    }
-
 
 }
