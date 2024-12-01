@@ -1,5 +1,6 @@
 package com.noah.matdongsan.entity.property;
 
+import com.noah.matdongsan.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+public class Comment extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,9 +20,6 @@ public class Comment {
     @Lob
     @Column(nullable = false)
     private String comment;
-
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "property_id")
@@ -32,11 +30,5 @@ public class Comment {
         this.comment = comment;
         this.property = property;
     }
-
-    @PrePersist
-    public void initializeCreatedAt() {
-        this.createdAt = LocalDateTime.now();
-    }
-
 
 }

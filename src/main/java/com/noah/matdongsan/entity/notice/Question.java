@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(name = "question")
 public class Question extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,20 +33,15 @@ public class Question extends BaseTimeEntity {
     @JoinColumn(name = "common_user_id", nullable = false)
     private CommonUser commonUser;
 
-    @OneToOne
-    @JoinColumn(name = "answer_id", nullable = false)
-    private QuestionAnswer questionAnswer;
-
     @Column(name = "question_photo_url", nullable = true)
     private String questionPhotoUrl;
 
     @Builder
-    public Question(QuestionCategory category, String title, String content, CommonUser commonUser, QuestionAnswer questionAnswer, String questionPhotoUrl) {
+    public Question(QuestionCategory category, String title, String content, CommonUser commonUser, String questionPhotoUrl) {
         this.category = category;
         this.title = title;
         this.content = content;
         this.commonUser = commonUser;
-        this.questionAnswer = questionAnswer;
         this.questionPhotoUrl = questionPhotoUrl;
     }
 }
