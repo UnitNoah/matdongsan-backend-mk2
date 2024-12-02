@@ -3,6 +3,7 @@ package com.noah.matdongsan.entity.user;
 import com.noah.matdongsan.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,9 +27,18 @@ public class CommonUser extends BaseTimeEntity {
     @Column(name="is_removed")
     private boolean isRemoved;
 
-    public CommonUser(String email, UserRole role) {
+    @Column(name = "profile_url", nullable = false)
+    private String profileUrl;
+
+    @Column(nullable = false)
+    private String phone;
+
+    @Builder
+    public CommonUser(String email, UserRole role,String phone) {
         this.email = email;
         this.role = role;
+        this.phone = phone;
+        this.isRemoved = false;
     }
 
 }

@@ -11,37 +11,43 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "agent")
 public class Agent {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "agent_id")
     private Long id;
 
-    @Column(name = "owner_name",nullable = false)
+    @OneToOne
+    @JoinColumn(name = "common_user_id", nullable = false)
+    private CommonUser commonUser;
+
+    @Column(name = "owner_name", nullable = false)
     private String ownerName;
 
     @Column(name = "agent_name", nullable = false)
     private String agentName;
 
-    @Column(nullable = false)
-    private String phone;
-
     @Embedded
     private Address address;
 
-    @OneToOne
-    @JoinColumn(name = "common_user_id", nullable = false)
-    private CommonUser commonUser;
+    @Column(name = "license_file_url", nullable = false)
+    private String licenseFileUrl;
 
-    @Column(name = "agent_photo_url", nullable = false)
-    private String agentPhotoUrl;
+    @Column(name = "latitude", nullable = false)
+    private double latitude;
+
+    @Column(name = "longitude", nullable = false)
+    private double longitude;
 
     @Builder
-    public Agent(String ownerName, String agentName, String phone, String agentPhotoUrl, Address address, CommonUser commonUser) {
+    public Agent(CommonUser commonUser, String ownerName, String agentName, Address address, double latitude, double longitude) {
+        this.commonUser = commonUser;
         this.ownerName = ownerName;
         this.agentName = agentName;
-        this.phone = phone;
-        this.agentPhotoUrl = agentPhotoUrl;
         this.address = address;
-        this.commonUser = commonUser;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }
+
+
