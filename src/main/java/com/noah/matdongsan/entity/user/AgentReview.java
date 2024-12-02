@@ -1,6 +1,5 @@
 package com.noah.matdongsan.entity.user;
 
-import com.noah.matdongsan.entity.property.Property;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -27,14 +26,14 @@ public class AgentReview {
     private Agent agent;
 
     @OneToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "common_user_id")
+    private CommonUser commonUser;
 
     @Builder
-    public AgentReview(String content, int rate, Agent agent, Member member) {
+    public AgentReview(String content, int rate, Agent agent, CommonUser commonUser) {
         this.content = content;
         this.rate = rate;
         this.agent = agent;
-        this.member = member;
+        this.commonUser = commonUser;
     }
 }

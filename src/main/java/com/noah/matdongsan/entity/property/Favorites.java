@@ -1,6 +1,6 @@
 package com.noah.matdongsan.entity.property;
 
-import com.noah.matdongsan.entity.user.Member;
+import com.noah.matdongsan.entity.user.CommonUser;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,8 +16,8 @@ public class Favorites {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "common_user_id")
+    private CommonUser commonUser;
 
     @OneToOne
     @JoinColumn(name = "property_id")

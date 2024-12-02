@@ -2,7 +2,7 @@ package com.noah.matdongsan.entity.property;
 
 import com.noah.matdongsan.entity.BaseTimeEntity;
 import com.noah.matdongsan.entity.user.Address;
-import com.noah.matdongsan.entity.user.Member;
+import com.noah.matdongsan.entity.user.CommonUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -57,8 +57,8 @@ public class Property extends BaseTimeEntity {
     private Address address;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "common_user_id", nullable = false)
+    private CommonUser commonUser;
 
     @Builder
     public Property(long deposit, long monthlyFee, long maintenance, String floorType, String roomSize, String title, String category, Address address) {
