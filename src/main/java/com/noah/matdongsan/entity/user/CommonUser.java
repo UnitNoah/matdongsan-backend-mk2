@@ -41,4 +41,8 @@ public class CommonUser extends BaseTimeEntity {
         this.isRemoved = false;
     }
 
+    public void markAsRemoved(){
+        this.isRemoved = true;
+    }
+
 }
