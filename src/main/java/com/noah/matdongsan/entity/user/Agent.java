@@ -33,20 +33,12 @@ public class Agent {
     @Column(name = "license_file_url", nullable = false)
     private String licenseFileUrl;
 
-    @Column(name = "latitude", nullable = false)
-    private double latitude;
-
-    @Column(name = "longitude", nullable = false)
-    private double longitude;
-
     @Builder
     public Agent(CommonUser commonUser, String ownerName, String agentName, Address address, double latitude, double longitude) {
         this.commonUser = commonUser;
         this.ownerName = ownerName;
         this.agentName = agentName;
         this.address = address;
-        this.latitude = latitude;
-        this.longitude = longitude;
     }
 }
 
