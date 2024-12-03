@@ -4,6 +4,7 @@ import com.noah.matdongsan.dto.member.CommonUserCreateDto;
 import com.noah.matdongsan.entity.user.CommonUser;
 import com.noah.matdongsan.entity.user.UserRole;
 import com.noah.matdongsan.repository.user.CommonUserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,4 +28,12 @@ public class MemberService {
 
         commonUserRepository.save(commonUser);
     }
+
+    public void softDeleteUser(Long id) {
+        int updatedRows = commonUserRepository.softDeleteById(id);
+        if (updatedRows == 0) {
+            throw new EntityNotFoundException("User with id " + id + " not found.");
+        }
+    }
+
 }
