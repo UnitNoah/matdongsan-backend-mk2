@@ -6,19 +6,16 @@ import com.noah.matdongsan.entity.user.CommonUser;
 import com.noah.matdongsan.entity.user.UserRole;
 import com.noah.matdongsan.repository.user.AgentRepository;
 import com.noah.matdongsan.repository.user.CommonUserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AgentService {
     private final CommonUserRepository commonUserRepository;
     private final AgentRepository agentRepository;
-
-    public AgentService(CommonUserRepository commonUserRepository, AgentRepository agentRepository) {
-        this.commonUserRepository = commonUserRepository;
-        this.agentRepository = agentRepository;
-    }
 
     public void createAgent(AgentCreateDto dto) {
         CommonUser commonUser = CommonUser.builder()
