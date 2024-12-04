@@ -24,6 +24,9 @@ public class CommonUser extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Column(name="is_removed")
     private boolean isRemoved;
 
