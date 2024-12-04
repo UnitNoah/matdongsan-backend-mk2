@@ -29,8 +29,6 @@ public class AgentService {
         Agent agent = Agent.builder()
                 .commonUser(commonUser)
                 .agentName(dto.getAgentName())
-                .latitude(dto.getLatitude())
-                .longitude(dto.getLongitude())
                 .address(dto.getAddress())
                 .build();
 
