@@ -37,11 +37,12 @@ public class CommonUser extends BaseTimeEntity {
     private String phone;
 
     @Builder
-    public CommonUser(String email, UserRole role,String password,String phone) {
+    public CommonUser(String email, UserRole role,String password,String phone,String profileUrl) {
         this.email = email;
         this.role = role;
         this.password = password;
         this.phone = phone;
+        this.profileUrl = profileUrl;
         this.isRemoved = false;
     }
 
