@@ -1,6 +1,7 @@
 package com.noah.matdongsan.service.member;
 
 import com.noah.matdongsan.dto.member.CommonUserCreateDto;
+import com.noah.matdongsan.dto.member.LoginResponseDto;
 import com.noah.matdongsan.entity.user.CommonUser;
 import com.noah.matdongsan.entity.user.UserRole;
 import com.noah.matdongsan.repository.user.CommonUserRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -38,6 +40,7 @@ public class MemberService {
                 .role(UserRole.USER)
                 .password(encodedPassword)
                 .phone(dto.getPhone())
+                .profileUrl(dto.getProfileUrl())
                 .build();
 
         commonUserRepository.save(commonUser);
@@ -61,6 +64,30 @@ public class MemberService {
 
         // 인증 성공: JWT 생성 및 반환
         return jwtProvider.createToken(user.getEmail(), user.getRole().name());
+    }
+
+    public LoginResponseDto buildLoginResponse(String email) {
+        Optional<CommonUser> userData = commonUserRepository.findByEmail(email);
+
+        LoginResponseDto response;
+
+        response = userData.filter(user -> !user.isRemoved())
+                .map(user -> new LoginResponseDto(
+                        "success",
+                        user.getEmail(),
+                        user.getRole().name()
+                ))
+                .orElseGet(() -> new LoginResponseDto(
+                        "removed",
+                        null,
+                        null
+                ));
+
+        return response;
+    }
+
+    public boolean isEmailRegistered(String email) {
+        return commonUserRepository.findByEmail(email).isPresent();
     }
 
 }
