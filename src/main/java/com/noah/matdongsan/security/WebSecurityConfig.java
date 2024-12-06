@@ -8,10 +8,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -31,17 +30,19 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 비활성화
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login", "/api/members").permitAll() // 로그인 및 회원가입은 인증 없이 허용
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // 관리자만 접근 가능
-                        .anyRequest().authenticated() // 그 외 요청은 인증 필요
+        http.authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll()
                 )
-                .cors(cors -> {}) // CORS 설정 활성화
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // JWT 필터 추가
-        return http.build(); // http.build() 호출
+                .csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
+                )
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+
+        return http.build();
     }
+
+
 
     /**
      * AuthenticationManager: 인증을 처리하는 AuthenticationManager 빈 등록.
@@ -69,7 +70,7 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*"); // 모든 Origin 허용 (운영 환경에서는 특정 Origin으로 제한)
+        configuration.addAllowedOrigin("http://localhost:8081"); // 모든 Origin 허용 (운영 환경에서는 특정 Origin으로 제한)
         configuration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
         configuration.addAllowedHeader("*"); // 모든 헤더 허용
         configuration.setAllowCredentials(true); // 쿠키 허용
