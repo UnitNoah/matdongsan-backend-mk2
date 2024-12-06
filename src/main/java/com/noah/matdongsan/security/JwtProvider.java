@@ -15,13 +15,14 @@ import java.util.Date;
 public class JwtProvider {
 
     private final SecretKey secretKey;
-    private final long accessTokenValidity = 24 * 60 * 60 * 1000; // 1일
 
     public JwtProvider(@Value("${jwt.secret}") String secret) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     public String createToken(String email, String role) {
+        // 1일
+        long accessTokenValidity = 24 * 60 * 60 * 1000;
         return Jwts.builder()
                 .setSubject(email)
                 .claim("role", role)
