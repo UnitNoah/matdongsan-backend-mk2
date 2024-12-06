@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
@@ -16,7 +18,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<String> createMember(@RequestBody @Valid CommonUserCreateDto dto) {
+    public ResponseEntity<String> createMember(@RequestBody @Valid CommonUserCreateDto dto) throws IOException {
         memberService.createMember(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Member created successfully");
     }
@@ -26,5 +28,6 @@ public class MemberController {
         String token = memberService.login(loginRequest.getEmail(), loginRequest.getPassword());
         return ResponseEntity.ok(token);
     }
+
 
 }

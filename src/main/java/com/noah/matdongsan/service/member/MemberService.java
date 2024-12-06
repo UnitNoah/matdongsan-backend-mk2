@@ -5,12 +5,15 @@ import com.noah.matdongsan.entity.user.CommonUser;
 import com.noah.matdongsan.entity.user.UserRole;
 import com.noah.matdongsan.repository.user.CommonUserRepository;
 import com.noah.matdongsan.security.JwtProvider;
+import com.noah.matdongsan.service.common.FileUploadService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
 
 @Slf4j
 @Service
@@ -19,10 +22,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final CommonUserRepository commonUserRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final FileUploadService fileUploadService;
     private final JwtProvider jwtProvider;
 
-    public void createMember(CommonUserCreateDto dto) {
+    public void createMember(CommonUserCreateDto dto) throws IOException {
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
+
+        if (dto.getProfileImage() != null) {
+            String uploadedUrl = fileUploadService.uploadFile(dto.getProfileImage());
+            dto.updateProfileUrl(uploadedUrl);
+        }
 
         CommonUser commonUser = CommonUser.builder()
                 .email(dto.getEmail())
