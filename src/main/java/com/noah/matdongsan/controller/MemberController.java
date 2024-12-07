@@ -36,10 +36,22 @@ public class MemberController {
         return ResponseEntity.ok(loginResponseDto);
     }
 
+    @PostMapping("/login/find-email")
+    public ResponseEntity<String> recoverEmail(@RequestParam String name, @RequestParam String phone){
+        String recoveredEmail = memberService.getRecoverEmail(name, phone);
+        return ResponseEntity.ok(recoveredEmail);
+    }
+
     @GetMapping("/check-email")
     public ResponseEntity<Boolean> checkEmailExistence(@RequestParam(name = "email" ,required = true) String email){
         return ResponseEntity.ok( memberService.isEmailRegistered(email));
     }
 
+    //비밀번호 찾기
 
+
+//    @GetMapping("/tickets/remain")
+//    public ResponseEntity<Boolean> checkTickets(@RequestParam String email){
+//        return ResponseEntity.ok( memberService.checkTickets(email));
+//    }
 }
