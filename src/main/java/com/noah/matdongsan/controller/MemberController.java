@@ -1,6 +1,7 @@
 package com.noah.matdongsan.controller;
 
 import com.noah.matdongsan.dto.member.CommonUserCreateDto;
+import com.noah.matdongsan.dto.member.CommonUserReadDto;
 import com.noah.matdongsan.dto.member.LoginRequestDto;
 import com.noah.matdongsan.dto.member.LoginResponseDto;
 import com.noah.matdongsan.service.member.MemberService;
@@ -8,11 +9,14 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -50,8 +54,16 @@ public class MemberController {
     //비밀번호 찾기
 
 
-//    @GetMapping("/tickets/remain")
-//    public ResponseEntity<Boolean> checkTickets(@RequestParam String email){
-//        return ResponseEntity.ok( memberService.checkTickets(email));
-//    }
+
+    @GetMapping("/tickets/remain")
+    public ResponseEntity<Optional<Integer>> checkTickets(@RequestParam(name = "email" ,required = true) String email){
+        return ResponseEntity.ok( memberService.hasAvailableTickets(email));
+    }
+
+    @GetMapping("/myPage")
+    public ResponseEntity<CommonUserReadDto> getUserDataForMyPage(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        CommonUserReadDto commonUserReadDto = memberService.getUserDataByEmail(email);
+        return ResponseEntity.ok(commonUserReadDto);
+    }
 }
