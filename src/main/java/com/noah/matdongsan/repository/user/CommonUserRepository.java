@@ -18,4 +18,7 @@ public interface CommonUserRepository extends JpaRepository<CommonUser,Long> {
     Optional<CommonUser> findByEmail(String email);
 
     Optional<CommonUser> findByNameAndPhone(String name, String phone);
+
+    @Query("SELECT u.id FROM CommonUser u WHERE u.email = :email")
+    Optional<Long> findUserIdByEmail(@Param("email")String email);
 }
