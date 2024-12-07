@@ -16,4 +16,6 @@ public interface CommonUserRepository extends JpaRepository<CommonUser,Long> {
     int softDeleteById(@Param("id") Long id);
 
     Optional<CommonUser> findByEmail(String email);
+
+    Optional<CommonUser> findByNameAndPhone(String name, String phone);
 }
