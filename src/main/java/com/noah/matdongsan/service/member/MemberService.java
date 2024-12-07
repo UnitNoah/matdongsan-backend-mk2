@@ -37,6 +37,7 @@ public class MemberService {
 
         CommonUser commonUser = CommonUser.builder()
                 .email(dto.getEmail())
+                .name(dto.getName())
                 .role(UserRole.USER)
                 .password(encodedPassword)
                 .phone(dto.getPhone())
@@ -88,6 +89,37 @@ public class MemberService {
 
     public boolean isEmailRegistered(String email) {
         return commonUserRepository.findByEmail(email).isPresent();
+    }
+
+    public String getRecoverEmail(String name, String phone) {
+        Optional<CommonUser> user = commonUserRepository.findByNameAndPhone(name, phone);
+
+        if (user.isPresent()) {
+            String email = user.get().getEmail();
+            return getMaskedEmail(email);
+        } else {
+            throw new EntityNotFoundException("사용자를 찾을 수 없습니다.");
+        }
+
+    }
+
+    public String getMaskedEmail(String email) {
+        int atIndex = email.indexOf('@');
+
+        if (atIndex > 0) {
+            String localPart = email.substring(0, atIndex);
+            String domainPart = email.substring(atIndex);
+
+            if (localPart.length() > 3) {
+                localPart = localPart.substring(0, 3) + "****";
+            } else {
+                localPart = "****";
+            }
+
+            return localPart + domainPart;
+        } else {
+            return "Invalid email format";
+        }
     }
 
 }
