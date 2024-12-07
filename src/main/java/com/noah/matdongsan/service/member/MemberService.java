@@ -1,10 +1,12 @@
 package com.noah.matdongsan.service.member;
 
 import com.noah.matdongsan.dto.member.CommonUserCreateDto;
+import com.noah.matdongsan.dto.member.CommonUserReadDto;
 import com.noah.matdongsan.dto.member.LoginResponseDto;
 import com.noah.matdongsan.entity.user.CommonUser;
 import com.noah.matdongsan.entity.user.UserRole;
 import com.noah.matdongsan.repository.user.CommonUserRepository;
+import com.noah.matdongsan.repository.user.TicketRepository;
 import com.noah.matdongsan.security.JwtProvider;
 import com.noah.matdongsan.service.common.FileUploadService;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final CommonUserRepository commonUserRepository;
+    private final TicketRepository ticketRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final FileUploadService fileUploadService;
     private final JwtProvider jwtProvider;
@@ -120,6 +123,39 @@ public class MemberService {
         } else {
             return "Invalid email format";
         }
+    }
+
+    public Boolean checkTickets(String email) {
+        Optional<Long> userId = commonUserRepository.findUserIdByEmail(email);
+        return userId.isPresent();
+    }
+
+    public Optional<Integer> hasAvailableTickets(String email) {
+        Optional<Long> userId = commonUserRepository.findUserIdByEmail(email);
+
+        if (userId.isPresent()) {
+            Integer ticketAmount = ticketRepository.getTicketAmountByUserId(userId.get());
+            return Optional.ofNullable(ticketAmount);
+        }
+
+        return Optional.empty();
+    }
+
+    public CommonUserReadDto getUserDataByEmail(String email) {
+        CommonUser commonUser = commonUserRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+
+        CommonUserReadDto commonUserReadDto = new CommonUserReadDto(
+                commonUser.getName(),
+                commonUser.getProfileUrl(),
+                commonUser.getPhone(),
+                commonUser.getRole()
+        );
+
+        Integer amount = ticketRepository.getTicketAmountByUserId(commonUser.getId());
+        commonUserReadDto.updateAmount(amount);
+
+        return commonUserReadDto;
     }
 
 }
