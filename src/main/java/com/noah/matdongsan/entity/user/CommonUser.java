@@ -21,6 +21,9 @@ public class CommonUser extends BaseTimeEntity {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private String name;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
@@ -37,8 +40,9 @@ public class CommonUser extends BaseTimeEntity {
     private String phone;
 
     @Builder
-    public CommonUser(String email, UserRole role,String password,String phone,String profileUrl) {
+    public CommonUser(String email, String name,UserRole role,String password,String phone,String profileUrl) {
         this.email = email;
+        this.name = name;
         this.role = role;
         this.password = password;
         this.phone = phone;
