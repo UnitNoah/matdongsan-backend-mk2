@@ -6,7 +6,9 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class CommonUserCreateDto {
@@ -20,13 +22,23 @@ public class CommonUserCreateDto {
     @NotBlank(message = "이름은 필수입니다.")
     private String name;
 
+    @NotBlank(message = "비밀번호는 필수입니다.")
+    @Size(min = 8, max = 50, message = "비밀번호는 최소 8자 이상, 최대 50자 이하여야 합니다.")
+    private String password;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @NotBlank(message = "전화번호는 빈 값이 될 수 없습니다.")
     private String phone;
 
-    @Column(name = "is_removed")
-    private boolean isRemoved;
+    private boolean isRemoved = false;
 
+    private String profileUrl;
+
+    private MultipartFile profileImage;
+
+    public void updateProfileUrl(String url) {
+        this.profileUrl = url;
+    }
 }
