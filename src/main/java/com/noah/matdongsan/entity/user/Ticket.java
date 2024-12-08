@@ -21,7 +21,7 @@ public class Ticket extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer price;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="common_user_id")
     private CommonUser commonUser;
 
