@@ -1,9 +1,11 @@
 package com.noah.matdongsan.service.notice;
 
+import com.noah.matdongsan.dto.notice.NoticeDetailReadDto;
 import com.noah.matdongsan.dto.notice.NoticeReadDto;
 import com.noah.matdongsan.dto.notice.PagedResponseDto;
 import com.noah.matdongsan.entity.notice.Notice;
 import com.noah.matdongsan.repository.notice.NoticeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,7 @@ import java.util.List;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
+
 
     @Transactional(readOnly = true)
     public PagedResponseDto<NoticeReadDto> getNoticeList(int pageNo, String criteria, String keyword) {
@@ -56,5 +59,12 @@ public class NoticeService {
             return noticeRepository.findAll(pageable);
         }
     }
+
+    public NoticeDetailReadDto getDetailPageById(Long id) {
+        return noticeRepository.findById(id)
+                .map(NoticeDetailReadDto::from)
+                .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
+    }
+
 
 }
