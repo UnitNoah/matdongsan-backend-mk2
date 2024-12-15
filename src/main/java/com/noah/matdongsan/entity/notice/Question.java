@@ -19,9 +19,8 @@ public class Question extends BaseTimeEntity {
     @Column(name = "question_id")
     private int id;
 
-    @Enumerated(EnumType.STRING) // Enum을 문자열로 저장
     @Column(nullable = false)
-    private QuestionCategory category;
+    private String category;
 
     @Column(nullable = false)
     private String title;
@@ -37,11 +36,18 @@ public class Question extends BaseTimeEntity {
     private String questionPhotoUrl;
 
     @Builder
-    public Question(QuestionCategory category, String title, String content, CommonUser commonUser, String questionPhotoUrl) {
+    public Question(String category, String title, String content, CommonUser commonUser, String questionPhotoUrl) {
         this.category = category;
         this.title = title;
         this.content = content;
         this.commonUser = commonUser;
         this.questionPhotoUrl = questionPhotoUrl;
+    }
+    @Builder
+    public Question(String category, String title, String content, CommonUser commonUser) {
+        this.category = category;
+        this.title = title;
+        this.content = content;
+        this.commonUser = commonUser;
     }
 }
