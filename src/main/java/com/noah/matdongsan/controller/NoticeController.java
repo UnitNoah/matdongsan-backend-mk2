@@ -34,7 +34,7 @@ public class NoticeController {
 
     //admin만 작성하도록 해야함
     //공지사항 생성
-    @Secured("ROLE_MANAGER")
+    @Secured("MANAGER")
     @PostMapping
     public void createNotice(NoticeCreateDto noticeCreateDto) {
         log.info(noticeCreateDto.toString());
@@ -47,7 +47,21 @@ public class NoticeController {
     }
 
     //공지사항 삭제
+    @Secured("MANAGER")
+    @DeleteMapping
+    public ResponseEntity<String> deleteNotice(@RequestParam(name = "id") Long id) {
+        noticeService.deleteNoticePageById(id);
+        return ResponseEntity.ok("delete done");
+    }
+
     //공지사항 수정
+    @Secured("MANAGER")
+    @PutMapping("/noticeForm")
+    public ResponseEntity<String> updateNotice(@ModelAttribute NoticeUpdateDto noticeUpdateDto) {
+        log.info(noticeUpdateDto.getContent());
+        noticeService.updateNoticeDetailPage(noticeUpdateDto);
+        return null;
+    }
 
     //1:1 문의 생성
     @PostMapping("/customerInquiry")
@@ -56,9 +70,29 @@ public class NoticeController {
     }
 
     //1:1 문의 삭제
-    //1:1 문의 수정
-    //1:1 문의 읽기
-    //1:1 문의리스트 읽기
+    @DeleteMapping("/customerInquiry/detail/{id}")
+    public void deleteCustomerInquiry(@PathVariable(name = "id") Long id) {
 
+    }
+
+    //1:1 문의 수정
+    @PutMapping("/customerInquiry")
+    public void updateCustomerInquiry(@ModelAttribute CustomerQuestionCreateDto dto) throws IOException {
+        questionService.createCustomerInquiry(dto);
+    }
+
+    //1:1 문의 읽기
+    //id 값 받기
+    @GetMapping("/customerInquiry/detail")
+    public void getCustomerInquiry(@ModelAttribute CustomerQuestionCreateDto dto) throws IOException {
+        questionService.createCustomerInquiry(dto);
+    }
+
+    //1:1 문의리스트 읽기
+    @GetMapping("/customerInquiry")
+    public ResponseEntity<CustomerQuestionsDto> getCustomerQuestionsByUser() {
+
+        return null;
+    }
 
 }
