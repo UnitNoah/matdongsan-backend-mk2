@@ -1,5 +1,6 @@
 package com.noah.matdongsan.service.property;
 
+import com.noah.matdongsan.dto.property.PropertyCreateDto;
 import com.noah.matdongsan.entity.user.CommonUser;
 import com.noah.matdongsan.entity.user.Ticket;
 import com.noah.matdongsan.repository.property.PropertyRepository;
@@ -19,7 +20,6 @@ public class PropertyService {
     private final CommonUserRepository commonUserRepository;
 
     public void updateTicketAmount(String email, int amount) {
-        // 1. CommonUser 조회
         CommonUser commonUser = commonUserRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
 
@@ -36,5 +36,11 @@ public class PropertyService {
             case 5 -> 25000;
             default -> throw new IllegalArgumentException("Invalid amount: " + amount);
         };
+    }
+
+    //생성
+    public void createProperty(PropertyCreateDto propertyCreateDto) {
+        //가져온 dto 데이터를 엔티티로 분리 해야함
+        //propertyCreateDto
     }
 }
