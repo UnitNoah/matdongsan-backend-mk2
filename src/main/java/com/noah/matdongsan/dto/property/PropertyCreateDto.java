@@ -9,6 +9,8 @@ import java.util.List;
 public class PropertyCreateDto {
 
     // property 관련 필드
+    // 엔티티별로 프론트에서 분리해서 가져오는 게 좋은지..
+    // 백엔드에서 분리된 필드를 받아 백엔드에서 나눠야하는지 고민이 됩니다.
     private String pdeposite; // 보증금
     private String prentalfee; // 월세
     private String pfloortype; // 층 유형
