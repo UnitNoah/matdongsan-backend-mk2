@@ -29,4 +29,15 @@ public class PropertyDetail {
     @Column(name = "amenity")
     private final Set<Amenity>amenities = new HashSet<>();
 
+    @OneToOne
+    @JoinColumn(name = "property_id", nullable = false) // 외래 키 설정
+    private Property property;
+
+    public PropertyDetail(String content, LocalDate movingDay, Set<Amenity> amenities, Property property) {
+        this.content = content;
+        this.movingDay = movingDay;
+        this.amenities.addAll(amenities);
+        this.property = property;
+    }
+
 }
