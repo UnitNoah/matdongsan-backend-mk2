@@ -1,5 +1,6 @@
 package com.noah.matdongsan.dto.property;
 
+import com.noah.matdongsan.entity.user.Address;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,4 +32,11 @@ public class PropertyCreateDto {
 
     // propertyDetail 관련 필드
     private PropertyDetailDto propertyDetail; // 중첩 객체로 처리
+
+    public Address createAddress(){
+        if (this.paddress == null || this.ppostcode == null || this.platitude == null || this.plongitude == null) {
+            throw new IllegalArgumentException("Address 관련 필드는 모두 필수입니다.");
+        }
+        return new Address(this.paddress, this.paddressdetail, this.ppostcode, this.platitude, this.plongitude);
+    }
 }
