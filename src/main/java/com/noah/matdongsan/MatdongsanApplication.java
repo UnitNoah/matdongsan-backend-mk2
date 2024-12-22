@@ -12,5 +12,4 @@ public class MatdongsanApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MatdongsanApplication.class, args);
 	}
-
 }
