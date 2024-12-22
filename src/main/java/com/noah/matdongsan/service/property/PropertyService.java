@@ -1,6 +1,7 @@
 package com.noah.matdongsan.service.property;
 
 import com.noah.matdongsan.dto.property.PropertyCreateDto;
+import com.noah.matdongsan.dto.property.PropertyReadDto;
 import com.noah.matdongsan.entity.property.Property;
 import com.noah.matdongsan.entity.user.CommonUser;
 import com.noah.matdongsan.entity.user.Ticket;
@@ -10,6 +11,8 @@ import com.noah.matdongsan.service.common.FileUploadService;
 import com.noah.matdongsan.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +40,7 @@ public class PropertyService {
 
     //생성
     @Transactional
-    public void createProperty(PropertyCreateDto dto,String email) {
+    public void createProperty(PropertyCreateDto dto, String email) {
 
         CommonUser commonUser = memberService.findUserByEmail(email);
 
@@ -60,8 +63,8 @@ public class PropertyService {
         }
 
         propertyRepository.save(property);
-        propertyDetailService.create(dto.getPropertyDetail(),property);
-        propertyPhotoService.create(dto.getPpattach(),property);
+        propertyDetailService.create(dto.getPropertyDetail(), property);
+        propertyPhotoService.create(dto.getPpattach(), property);
     }
 
 
@@ -73,4 +76,23 @@ public class PropertyService {
             default -> throw new IllegalArgumentException("Invalid amount: " + amount);
         };
     }
+
+    public Page<PropertyReadDto> getProperties(Pageable pageable) {
+        return propertyRepository.findAll(pageable)
+                .map(property -> PropertyReadDto.builder()
+                        .pdeposite(property.getDeposit())
+                        .prentalfee(property.getMonthlyFee())
+                        .pfloortype(property.getFloorType())
+                        .pfloor(property.getFloor())
+                        .psize(property.getRoomSize())
+                        .pmaintenance(property.getMaintenance())
+                        .ptitle(property.getTitle())
+                        .pcategory(property.getCategory())
+                        .pthumbnail(property.getThumbnailUrl())
+                        .paddress(property.getAddress())
+                        .status(property.getStatus())
+                        .build()
+                );
+    }
+
 }
