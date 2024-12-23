@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PropertyPhotoRepository extends JpaRepository<PropertyPhoto,Long> {
-    List<PropertyPhoto> findByProperty_id(Long propertyId);
+    List<PropertyPhoto> findAllByProperty_Id(Long propertyId);
 }

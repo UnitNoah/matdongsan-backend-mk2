@@ -158,4 +158,8 @@ public class MemberService {
         return commonUserReadDto;
     }
 
+    public CommonUser findUserByEmail(String email) {
+        return commonUserRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+    }
 }

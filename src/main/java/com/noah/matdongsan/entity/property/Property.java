@@ -19,13 +19,13 @@ public class Property extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private long deposit;
+    private String deposit;
 
     @Column(name = "monthly_fee", nullable = false)
-    private long monthlyFee;
+    private String monthlyFee;
 
     @Column(nullable = false)
-    private long maintenance;
+    private String maintenance;
 
     @Column(name = "thumbnail_url", nullable = false)
     private String thumbnailUrl;
@@ -41,7 +41,6 @@ public class Property extends BaseTimeEntity {
 
     @Column(name = "hit_count", nullable = false)
     private int hitCount = 0;
-
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -61,18 +60,26 @@ public class Property extends BaseTimeEntity {
     private CommonUser commonUser;
 
     @Builder
-    public Property(long deposit, long monthlyFee, long maintenance, String floorType, String roomSize, String title, String category, Address address) {
+    public Property(String deposit, String monthlyFee, String maintenance, String floorType,String floor, String roomSize, String title, String category, Address address,CommonUser commonUser) {
         this.deposit = deposit;
         this.monthlyFee = monthlyFee;
         this.maintenance = maintenance;
         this.floorType = floorType;
+        this.floor = floor;
         this.roomSize = roomSize;
         this.title = title;
         this.category = category;
         this.address = address;
+        this.commonUser = commonUser;
+        this.status = PropertyStatus.AVAILABLE;
     }
-    
+    //나중에 중복 안되도록 막아야함
     public void incrementHitCount() {
         this.hitCount++;
+    }
+
+    public void updateThumbnailUrl(String thumbnailUrl){
+        // 매개변수 확인해야함
+        this.thumbnailUrl = thumbnailUrl;
     }
 }
