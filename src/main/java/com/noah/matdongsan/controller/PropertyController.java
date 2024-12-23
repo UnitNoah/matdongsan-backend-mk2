@@ -1,7 +1,9 @@
 package com.noah.matdongsan.controller;
 
 import com.noah.matdongsan.dto.property.PropertyCreateDto;
+import com.noah.matdongsan.dto.property.PropertyDetailReadDto;
 import com.noah.matdongsan.dto.property.PropertyReadDto;
+import com.noah.matdongsan.dto.property.PropertyUserDto;
 import com.noah.matdongsan.service.property.PropertyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,15 +27,15 @@ public class PropertyController {
     private final PropertyService propertyService;
 
     @PostMapping("/payment/ticket/{product}")
-    public void purchaseTicket(@PathVariable(name="product") int product){
+    public void purchaseTicket(@PathVariable(name = "product") int product) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        propertyService.updateTicketAmount(email,product);
+        propertyService.updateTicketAmount(email, product);
     }
 
     @PostMapping("/registerForm")
-    public void createProperty(@ModelAttribute PropertyCreateDto propertyCreateDto,@AuthenticationPrincipal String userEmail) {
+    public void createProperty(@ModelAttribute PropertyCreateDto propertyCreateDto, @AuthenticationPrincipal String userEmail) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        propertyService.createProperty(propertyCreateDto,email);
+        propertyService.createProperty(propertyCreateDto, email);
     }
 
     @GetMapping
@@ -60,5 +62,22 @@ public class PropertyController {
 
         return ResponseEntity.ok(response);
     }
+
+    // 디테일 매물 페이지 정보
+    @GetMapping("/{pnumber}")
+    public ResponseEntity<PropertyDetailReadDto> getProperty(
+            @PathVariable(name = "pnumber") Long pnumber,
+            @RequestParam(name="orderBy",defaultValue = "desc") String orderBy,
+            @RequestParam(name="pageNo", defaultValue = "1") int pageNo) {
+        propertyService.getPropertyByPropertyId(pnumber);
+        return null;
+    }
+
+    //property 작성자 유저 데이터
+    @GetMapping("/userData/{propertyId}")
+    public ResponseEntity<PropertyUserDto> getUserDataByPropertyId(@PathVariable(name = "propertyId") Long propertyId) {
+        return ResponseEntity.ok(propertyService.getUserDataByPropertyId(propertyId));
+    }
+
 
 }
