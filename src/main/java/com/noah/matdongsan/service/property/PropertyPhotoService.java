@@ -30,4 +30,7 @@ public class PropertyPhotoService {
         propertyPhotoRepository.saveAll(propertyPhotos);
     }
 
+    public List<PropertyPhoto> getPhotosById(Long propertyId) {
+        return propertyPhotoRepository.findAllByProperty_Id(propertyId);
+    }
 }
