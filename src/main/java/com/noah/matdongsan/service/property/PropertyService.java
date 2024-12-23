@@ -2,19 +2,26 @@ package com.noah.matdongsan.service.property;
 
 import com.noah.matdongsan.dto.property.PropertyCreateDto;
 import com.noah.matdongsan.dto.property.PropertyReadDto;
+import com.noah.matdongsan.dto.property.PropertyUserDto;
 import com.noah.matdongsan.entity.property.Property;
+import com.noah.matdongsan.entity.property.PropertyDetail;
+import com.noah.matdongsan.entity.property.PropertyPhoto;
 import com.noah.matdongsan.entity.user.CommonUser;
 import com.noah.matdongsan.entity.user.Ticket;
 import com.noah.matdongsan.repository.property.PropertyRepository;
 import com.noah.matdongsan.repository.user.TicketRepository;
 import com.noah.matdongsan.service.common.FileUploadService;
 import com.noah.matdongsan.service.member.MemberService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -80,6 +87,7 @@ public class PropertyService {
     public Page<PropertyReadDto> getProperties(Pageable pageable) {
         return propertyRepository.findAll(pageable)
                 .map(property -> PropertyReadDto.builder()
+                        .pnumber(property.getId())
                         .pdeposite(property.getDeposit())
                         .prentalfee(property.getMonthlyFee())
                         .pfloortype(property.getFloorType())
@@ -95,4 +103,32 @@ public class PropertyService {
                 );
     }
 
+    @Transactional(readOnly = true)
+    public PropertyUserDto getUserDataByPropertyId(Long propertyId) {
+        Optional<Property> propertyOptional = propertyRepository.findById(propertyId);
+        if (propertyOptional.isEmpty()) {
+            throw new EntityNotFoundException("Property not found with id: " + propertyId);
+        }
+        CommonUser commonUser = propertyOptional.get().getCommonUser();
+        return PropertyUserDto.builder()
+                .uid(commonUser.getId())
+                .uname(commonUser.getName())
+                .urole(commonUser.getRole())
+                .uphone(commonUser.getPhone())
+                .isRemoved(commonUser.isRemoved())
+                .profileUrl(commonUser.getProfileUrl())
+                .uemail(commonUser.getEmail())
+                .build();
+    }
+
+    // return 값 줘야하고 DTO 하나 만들어서 프론트로 전달해야함
+    // 모든 매물 데이터를 넘기는게 맞나?
+    // 하나씩 각 컴포넌트에 맞게 보내면 되지 않나?
+    @Transactional(readOnly = true)
+    public void getPropertyByPropertyId(Long propertyId) {
+        Optional<PropertyDetail> propertyDetail = propertyDetailService.getDetailById(propertyId);
+        List<PropertyPhoto> photos = propertyPhotoService.getPhotosById(propertyId);
+        Optional<Property> property = propertyRepository.findById(propertyId);
+
+    }
 }
