@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class PropertyDetailService {
@@ -22,5 +24,9 @@ public class PropertyDetailService {
 
         PropertyDetail propertyDetail = dto.toEntity(property);
         propertyDetailRepository.save(propertyDetail);
+    }
+
+    public Optional<PropertyDetail> getDetailById(Long propertyId) {
+        return propertyDetailRepository.findByProperty_Id(propertyId);
     }
 }
