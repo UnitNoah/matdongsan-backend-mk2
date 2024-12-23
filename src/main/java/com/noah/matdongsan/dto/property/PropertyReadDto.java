@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 public class PropertyReadDto {
+    private Long pnumber;
     private String pdeposite; // 보증금
     private String prentalfee; // 월세
     private String pfloortype; // 층 유형
@@ -23,7 +24,8 @@ public class PropertyReadDto {
     private PropertyStatus status;
 
     @Builder
-    public PropertyReadDto(String pdeposite, String prentalfee, String pfloortype, String pfloor, String psize, String pmaintenance, String ptitle, String pcategory, Address paddress, String thumbnailUrl,PropertyStatus status) {
+    public PropertyReadDto(Long pnumber,String pdeposite, String prentalfee, String pfloortype, String pfloor, String psize, String pmaintenance, String ptitle, String pcategory, Address paddress, String thumbnailUrl,PropertyStatus status) {
+        this.pnumber = pnumber;
         this.pdeposite = pdeposite;
         this.prentalfee = prentalfee;
         this.pfloortype = pfloortype;
