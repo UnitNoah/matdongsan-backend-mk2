@@ -6,10 +6,8 @@ import com.noah.matdongsan.dto.member.LoginRequestDto;
 import com.noah.matdongsan.dto.member.LoginResponseDto;
 import com.noah.matdongsan.service.member.MemberService;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,4 +64,5 @@ public class MemberController {
         CommonUserReadDto commonUserReadDto = memberService.getUserDataByEmail(email);
         return ResponseEntity.ok(commonUserReadDto);
     }
+
 }
