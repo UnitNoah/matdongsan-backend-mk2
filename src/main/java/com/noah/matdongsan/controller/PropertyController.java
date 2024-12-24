@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +32,7 @@ public class PropertyController {
     }
 
     @PostMapping("/registerForm")
-    public void createProperty(@ModelAttribute PropertyCreateDto propertyCreateDto, @AuthenticationPrincipal String userEmail) {
+    public void createProperty(@ModelAttribute PropertyCreateDto propertyCreateDto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         propertyService.createProperty(propertyCreateDto, email);
     }
@@ -65,19 +64,22 @@ public class PropertyController {
 
     // 디테일 매물 페이지 정보
     @GetMapping("/{pnumber}")
-    public ResponseEntity<PropertyDetailReadDto> getProperty(
+    public PropertyDetailReadDto getProperty(
             @PathVariable(name = "pnumber") Long pnumber,
             @RequestParam(name="orderBy",defaultValue = "desc") String orderBy,
             @RequestParam(name="pageNo", defaultValue = "1") int pageNo) {
-        propertyService.getPropertyByPropertyId(pnumber);
-        return null;
+        return  propertyService.getPropertyByPropertyId(pnumber);
     }
 
     //property 작성자 유저 데이터
-    @GetMapping("/userData/{propertyId}")
+    @GetMapping("/userData/{userId}")
+    public ResponseEntity<PropertyUserDto> getUserDataByUserId(@PathVariable(name = "userId") Long userId) {
+        return ResponseEntity.ok(propertyService.getUserDataByPropertyId(userId));
+    }
+
+    @GetMapping("/property/userData/{propertyId}")
     public ResponseEntity<PropertyUserDto> getUserDataByPropertyId(@PathVariable(name = "propertyId") Long propertyId) {
         return ResponseEntity.ok(propertyService.getUserDataByPropertyId(propertyId));
     }
-
 
 }
