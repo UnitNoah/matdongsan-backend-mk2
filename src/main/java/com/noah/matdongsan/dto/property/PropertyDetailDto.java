@@ -31,6 +31,26 @@ public class PropertyDetailDto {
     private boolean pdinduction; // 인덕션 유무
     private String moveIn; // 입주 여부
 
+    public PropertyDetailDto(PropertyDetail propertyDetail) {
+        this.pdcontent = propertyDetail.getContent();
+        this.pdmoveindate = propertyDetail.getMovingDay().toString();
+
+        Set<Amenity> amenities = propertyDetail.getAmenities();
+        this.pdbath = amenities.contains(Amenity.BATH) ? "yes" : "no";
+        this.pdlift = amenities.contains(Amenity.LIFT) ? "yes" : "no";
+        this.pdbed = amenities.contains(Amenity.BED);
+        this.pdmicrowave = amenities.contains(Amenity.MICROWAVE);
+        this.pdburner = amenities.contains(Amenity.BURNER);
+        this.pdfridge = amenities.contains(Amenity.FRIDGE);
+        this.pdshoecloset = amenities.contains(Amenity.SHOE_CLOSET);
+        this.pdtv = amenities.contains(Amenity.TV);
+        this.pdcloset = amenities.contains(Amenity.CLOSET);
+        this.pddinningtable = amenities.contains(Amenity.DINNING_TABLE);
+        this.pdtable = amenities.contains(Amenity.TABLE);
+        this.pdwasher = amenities.contains(Amenity.WASHER);
+        this.pdinduction = amenities.contains(Amenity.INDUCTION);
+    }
+
     public PropertyDetail toEntity(Property property) {
         Set<Amenity> amenities = EnumSet.noneOf(Amenity.class);
 
@@ -44,6 +64,7 @@ public class PropertyDetailDto {
 
         return new PropertyDetail(pdcontent, movingDay, amenities, property);
     }
+
 
     private boolean isAmenityPresent(Amenity amenity) {
         return switch (amenity) {
