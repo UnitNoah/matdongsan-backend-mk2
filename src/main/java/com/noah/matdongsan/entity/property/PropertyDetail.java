@@ -2,6 +2,7 @@ package com.noah.matdongsan.entity.property;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "property_details")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class PropertyDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
